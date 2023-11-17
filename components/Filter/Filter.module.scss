@@ -1,0 +1,11 @@
+.filterContainer{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: wrap;
+    width: 100%;
+    gap:10px;
+    .field{
+        flex:1;
+    }
+}
