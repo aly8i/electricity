@@ -21,7 +21,7 @@ const Filter = () => {
 
   return (
     <div className={styles.filterContainer}>
-        <div className={styles.field}>
+        {/* <div className={styles.field}>
             <p className="title">تاريخ الدفع</p>
             <DatePicker
                 selected={date}
@@ -29,7 +29,7 @@ const Filter = () => {
                 dateFormat="dd/MM/yyyy"
                 isClearable
             />
-        </div>
+        </div> */}
         <div className={styles.field}>
             <p className="title">رقم الهاتف</p>
             <input type="number" onChange={(e)=>setNumber(e.target.value)} value={number}/>
