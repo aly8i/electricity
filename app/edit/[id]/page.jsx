@@ -12,11 +12,11 @@ const page = ({ params }) => {
   const [prev, setPrev] = useState("");
   const [cur, setCur] = useState("");
   const [amps, setAmps] = useState("");
+  const [balance, setBalance] = useState("");
 
   useEffect(() => {
     const effect = async () => {
       const user = await getUser(params.id);
-      console.log(user);
       if (user == null) {
         window.location.href = "/dashboard";
       } else {
@@ -28,6 +28,7 @@ const page = ({ params }) => {
         setPrev(user.prev);
         setCur(user.cur);
         setAmps(user.amps);
+        setBalance(user.balance);
       }
     };
     effect();
@@ -37,11 +38,11 @@ const page = ({ params }) => {
     <div className={styles.addContainer}>
       <div className={styles.up}>
         <div className={styles.field}>
-          <p className="title">رقم الهاتف</p>
+          <p className="title">الدين</p>
           <input
             type="number"
-            onChange={(e) => setNumber(e.target.value)}
-            value={number}
+            onChange={(e) => setBalance(e.target.value)}
+            value={balance}
           />
         </div>
         <div className={styles.field}>
@@ -85,6 +86,14 @@ const page = ({ params }) => {
           />
         </div>
         <div className={styles.field}>
+          <p className="title">رقم الهاتف</p>
+          <input
+            type="number"
+            onChange={(e) => setNumber(e.target.value)}
+            value={number}
+          />
+        </div>
+        <div className={styles.field}>
           <p className="title">العلبة</p>
           <input
             type="text"
@@ -114,7 +123,8 @@ const page = ({ params }) => {
               month,
               year,
               number,
-              amps
+              amps,
+              balance
             )
           }
         >

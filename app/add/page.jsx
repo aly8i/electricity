@@ -18,22 +18,6 @@ const add = () => {
     <div className={styles.addContainer} ref={printRef}>
       <div className={styles.up}>
         <div className={styles.field}>
-          <p className="title">رقم الهاتف</p>
-          <input
-            type="number"
-            onChange={(e) => setNumber(e.target.value)}
-            value={number}
-          />
-        </div>
-        <div className={styles.field}>
-          <p className="title">الامبيراج</p>
-          <input
-            type="number"
-            onChange={(e) => setAmps(e.target.value)}
-            value={amps}
-          />
-        </div>
-        <div className={styles.field}>
           <p className="title">السنة</p>
           <input
             type="number"
@@ -50,11 +34,27 @@ const add = () => {
           />
         </div>
         <div className={styles.field}>
+          <p className="title">الامبيراج</p>
+          <input
+            type="number"
+            onChange={(e) => setAmps(e.target.value)}
+            value={amps}
+          />
+        </div>
+        <div className={styles.field}>
           <p className="title">العداد</p>
           <input
             type="text"
             onChange={(e) => setPrev(e.target.value)}
             value={prev}
+          />
+        </div>
+        <div className={styles.field}>
+          <p className="title">رقم الهاتف</p>
+          <input
+            type="number"
+            onChange={(e) => setNumber(e.target.value)}
+            value={number}
           />
         </div>
         <div className={styles.field}>

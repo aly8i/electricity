@@ -31,7 +31,7 @@ const Table = ({ headers, data }) => {
               onClick={() => selectRow(user?.id)}
               key={i}
             >
-              <td>{user?.number}</td>
+              <td>{user?.balance}</td>
               <td>
                 {(
                   (user?.cur - user?.prev) * admin?.KWPrice +
@@ -45,6 +45,7 @@ const Table = ({ headers, data }) => {
               <td>{user?.cur}</td>
               <td>{user?.year}</td>
               <td>{user?.month}</td>
+              <td>{user?.number}</td>
               <td>{user?.box}</td>
               <td>{user?.name}</td>
             </tr>

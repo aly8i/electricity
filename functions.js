@@ -57,6 +57,7 @@ export const addUser = async (name, box, prev, month, year, number, amps) => {
         year: parseInt(year),
         number,
         amps,
+        balance: 0,
       };
       await addDoc(usersRef, data);
       window.location.href = "/dashboard";
@@ -76,7 +77,8 @@ export const editUser = async (
   month,
   year,
   number,
-  amps
+  amps,
+  balance
 ) => {
   try {
     if (
@@ -105,6 +107,7 @@ export const editUser = async (
         year: parseInt(year),
         number,
         amps,
+        balance,
       };
       await updateDoc(userDoc, data);
     }
