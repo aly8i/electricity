@@ -10,6 +10,7 @@ const Page = () => {
   fetchAdmin();
   const { fData } = useContext(UserContext);
   const headers = [
+    "الدفعة الاخيرة",
     "الدين",
     "الفاتورة",
     "الامبيراج",

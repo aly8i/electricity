@@ -3,6 +3,8 @@ import {
   collection,
   query,
   where,
+  orderBy,
+  limit,
   doc,
   onSnapshot,
   getDocs,
@@ -14,23 +16,38 @@ import { UserContext } from "../context/Usercontext";
 export const fetchUsers = () => {
   const { setData, setFData } = useContext(UserContext);
   const usersRef = collection(db, "users");
+  const invoicesRef = collection(db, "invoices");
 
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
         const usersQuery = query(usersRef, where("name", "!=", null));
 
-        const unsubscribe = onSnapshot(usersQuery, (snapshot) => {
+        const unsubscribe = onSnapshot(usersQuery, async (snapshot) => {
           if (!snapshot.empty) {
-            const usersData = snapshot.docs.map((doc) => {
+            const usersDataPromises = snapshot.docs.map(async (doc) => {
+              // get the invoice with the latest date from firebase
+              const invoiceQuery = query(
+                invoicesRef,
+                where("user", "==", doc.id),
+                orderBy("date", "desc"),
+                limit(1)
+              );
+              const invoiceData = await getDocs(invoiceQuery);
+              const latestInvoice = invoiceData?.docs[0]?.data()?.date || null;
+
               const id = doc.id;
               const data = doc.data();
-              return { id, ...data };
+              return { id, ...data, latestInvoice };
             });
 
+            // Wait for all promises to resolve
+            const usersData = await Promise.all(usersDataPromises);
+
             // Update the context with the fetched data
-            setData([...usersData]);
-            setFData([...usersData]);
+            console.log(usersData);
+            setData(usersData);
+            setFData(usersData);
           }
         });
 

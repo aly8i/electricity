@@ -31,6 +31,9 @@ const Table = ({ headers, data }) => {
               onClick={() => selectRow(user?.id)}
               key={i}
             >
+              <td>
+                {user?.latestInvoice?.toDate().toLocaleDateString("en-GB")}
+              </td>
               <td>{user?.balance}</td>
               <td>
                 {(
