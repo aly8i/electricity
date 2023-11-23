@@ -93,49 +93,17 @@ const Filter = () => {
       name: "التاريخ الحالي",
       action: () => {
         setFilter("التاريخ الحالي");
-        // filter users with latestInvoice is less than date input
-        // const filtered = data
-        //   .filter((user) => {
-        //     const userDate = user?.latestInvoice?.toDate();
-        //     var inputDate = date;
-        //     inputDate?.setDate(date.getDate() + 1);
-
-        //     // Check if userDate and inputDate are valid Date objects
-        //     return (
-        //       userDate instanceof Date &&
-        //       inputDate instanceof Date &&
-        //       userDate.getTime() <= inputDate.getTime() &&
-        //       user?.name.includes(name) &&
-        //       user?.box.includes(box) &&
-        //       (month == "" || user?.month == month) &&
-        //       (year == "" || user?.year == year) &&
-        //       user?.number.includes(number)
-        //     );
-        //   })
-        //   .sort((a, b) => {
-        //     const dateA = a.latestInvoice.toDate();
-        //     const dateB = b.latestInvoice.toDate();
-        //     return dateB.getTime() - dateA.getTime();
-        //   });
-
-        // setFData(filtered);
       },
     },
     {
       name: "قبل التاريخ",
       action: () => {
         setFilter("قبل التاريخ");
-        //filter balance and sort desc
-        // const filtered = data
-        //   .filter((user) => user?.balance > 0)
-        //   .sort((a, b) => b.balance - a.balance);
-        // setFData(filtered);
       },
     },
     {
       name: "علبه ديون",
       action: () => {
-        //filter balance and sort desc
         const filtered = data
           .filter((user) => user?.balance > 0)
           .sort((a, b) => b.balance - a.balance);

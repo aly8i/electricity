@@ -14,9 +14,10 @@ const Page = ({ params }) => {
   const [number, setNumber] = useState("");
   const [prev, setPrev] = useState("");
   const [cur, setCur] = useState("");
-  const [amount, setAmount] = useState(0);
+
   const [date, setDate] = useState("");
   const { admin } = useContext(UserContext);
+  const [amount, setAmount] = useState(0);
   const printRef = useRef();
 
   useEffect(() => {
@@ -40,6 +41,14 @@ const Page = ({ params }) => {
           const year = yourDate.getFullYear();
           const formatted = `${day}/${month}/${year}`;
           setDate(formatted);
+
+          if (admin) {
+            const x1 = user?.cur - user?.prev;
+            const x2 = x1 * admin?.KWPrice;
+            const x3 = x2 + user?.amps * admin?.ampsPrice;
+            setAmount(x3);
+            console.log(x2);
+          }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -47,7 +56,7 @@ const Page = ({ params }) => {
     };
 
     fetchData();
-  }, [params.id]);
+  }, [params.id, admin]);
 
   return (
     <div className={styles.addContainer}>
@@ -98,7 +107,9 @@ const Page = ({ params }) => {
             <p>&nbsp;</p>
             <p>{"ليرة لبنانية او"}</p>
             <p>&nbsp;</p>
-            <p>{((cur - prev) * admin?.KWPrice * admin?.rate).toFixed(2)}</p>
+            <p>
+              {((cur - prev) * admin?.KWPrice * admin?.rate).toLocaleString()}
+            </p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
             <p>{": مجموع الاستهلاك"} </p>
           </div>
@@ -109,7 +120,7 @@ const Page = ({ params }) => {
             <p>&nbsp;</p>
             <p>{"ليرة لبنانية او"}</p>
             <p>&nbsp;</p>
-            <p>{amount * admin?.rate}</p>
+            <p>{(amount * admin?.rate).toLocaleString()}</p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
             <p>{": مبلغ و قدره"}</p>
           </div>
@@ -122,7 +133,7 @@ const Page = ({ params }) => {
             <p>&nbsp;</p>
             <p>{"ليرة لبنانية او"}</p>
             <p> &nbsp;</p>
-            <p>{amps * admin?.ampsPrice * admin?.rate}</p>
+            <p>{(amps * admin?.ampsPrice * admin?.rate).toLocaleString()}</p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
             <p>{": الاشتراك الثابت"}</p>
           </div>
@@ -153,23 +164,23 @@ const Page = ({ params }) => {
               {(
                 ((cur - prev) * admin?.KWPrice + amps * admin?.ampsPrice) *
                 admin?.rate
-              ).toFixed(2)}
+              ).toLocaleString()}
             </p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
             <p>{": مجموع الفاتورة"}</p>
           </div>
           <div className={styles.detailx}>
-            <p>{admin?.rate}</p>
+            <p>{admin?.rate?.toLocaleString()}</p>
             <p>&nbsp;</p>
-            <p>{"ليرة لبنانية على سغر الصيرفة"}</p>
+            <p>{"دولار على سعر الصيرفة"}</p>
             <p>&nbsp;</p>
-            <p>{(admin?.KWPrice * admin?.rate).toFixed(2)}</p>
+            <p>{admin?.KWPrice}</p>
             <p>&nbsp;</p>
             <p>{"او"}</p>
             <p>&nbsp;</p>
-            <p>{"دولار"}</p>
+            <p>{"ليرة لبنانية"}</p>
             <p>&nbsp;</p>
-            <p>{admin?.KWPrice}</p>
+            <p>{(admin?.KWPrice * admin?.rate)?.toLocaleString()}</p>
             <p>&nbsp;</p>
             <p>{"سعر الكيلو واط الصادر عن وزارة الطاقة"}</p>
           </div>

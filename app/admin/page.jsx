@@ -68,7 +68,13 @@ const page = () => {
         <div
           className={styles.btn}
           onClick={async () =>
-            await editAdmin(rate, KWPrice, username, password, ampsPrice)
+            await editAdmin(
+              parseFloat(rate),
+              parseFloat(KWPrice),
+              username,
+              password,
+              parseFloat(ampsPrice)
+            )
           }
         >
           حفظ
