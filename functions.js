@@ -190,6 +190,7 @@ export const saveInvoice = async (
     }
 
     const invoicessRef = collection(db, "invoices");
+    const usersRef = collection(db, "users");
     if (id) {
       const data = {
         user: id,
@@ -205,6 +206,12 @@ export const saveInvoice = async (
         amps: parseInt(amps),
       };
       await addDoc(invoicessRef, data);
+
+      const data2 = { prev: cur };
+      if (id) {
+        const userDoc = doc(usersRef, id);
+        await updateDoc(userDoc, data2);
+      }
     }
     toast.success("الفاتورة حفظة");
   } catch (error) {
