@@ -3,8 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import styles from "./edit.module.scss";
 import { editAdmin, getTodayTotal, getMonthsTotal } from "../../functions";
 import { UserContext } from "../../context/Usercontext";
-import Chart from "../../components/Chart/chart";
-// import Chart from "../../components/Chart/chart";
+import Chart from "../../components/Chart/Chart";
 const page = () => {
   const [rate, setRate] = useState(0);
   const [KWPrice, setKWPrice] = useState(0);
