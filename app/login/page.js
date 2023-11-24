@@ -16,11 +16,7 @@ const Login = () => {
       password,
     });
   };
-  useEffect(() => {
-    if (data?.session?.loggedIn) {
-      window.location.href = `${process.env.BASE_URL}/dashboard`;
-    }
-  }, [data?.session?.loggedIn]);
+
   if (status == "loading") {
     return <></>;
   }
