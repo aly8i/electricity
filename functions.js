@@ -10,6 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { deleteDoc } from "firebase/firestore";
 
 export const getUser = async (id) => {
   try {
@@ -25,6 +26,23 @@ export const getUser = async (id) => {
     }
   } catch (error) {
     toast.error("Error getting the user");
+  }
+};
+
+export const getAdmin = async () => {
+  try {
+    const adminRef = collection(db, "admin");
+    const adminDoc = doc(adminRef, "1");
+    const querySnapshot = await getDoc(adminDoc);
+    if (querySnapshot.empty) {
+      toast.warning("الاسم غير موجود");
+      return null;
+    } else {
+      const Data = { ...querySnapshot.data(), id: adminDoc.id };
+      return Data;
+    }
+  } catch (error) {
+    toast.error("Error getting the admin");
   }
 };
 
@@ -157,7 +175,19 @@ export const editAdmin = async (
     console.error("Error:", error);
   }
 };
-
+export const deleteUser = async (id) => {
+  try {
+    const usersRef = collection(db, "users");
+    if (id) {
+      const userDoc = doc(usersRef, id);
+      await deleteDoc(userDoc);
+    }
+    toast.success("لقد تم المسح");
+  } catch (error) {
+    toast.error("عطل حصل");
+    console.error("Error:", error);
+  }
+};
 export const saveInvoice = async (
   id,
   name,
@@ -241,5 +271,79 @@ export const getInvoices = async (id) => {
   } catch (error) {
     toast.error("عطل حصل");
     console.error("Error:", error);
+  }
+};
+
+export const getTodayTotal = async () => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const invoicesRef = collection(db, "invoices");
+    const invoicesQuery = query(invoicesRef);
+
+    const querySnapshot = await getDocs(invoicesQuery);
+
+    if (querySnapshot.empty) {
+      return 0;
+    }
+
+    var total = 0;
+
+    querySnapshot.forEach((doc) => {
+      if (
+        doc.data().date.toDate().toLocaleDateString() ===
+        today.toLocaleDateString()
+      ) {
+        total += doc.data().amount;
+        console.log(doc.data().amount);
+        console.log(doc.data());
+      }
+    });
+    return total;
+  } catch (error) {
+    toast.error("عطل حصل");
+    console.error("Error:", error);
+  }
+};
+
+export const getMonthsTotal = async () => {
+  try {
+    const invoicesRef = collection(db, "invoices");
+    const invoicesQuery = query(invoicesRef);
+    const querySnapshot = await getDocs(invoicesQuery);
+
+    if (querySnapshot.empty) {
+      return [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      ];
+    }
+
+    var months = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
+
+    querySnapshot.forEach((doc) => {
+      // Extract date from each document
+      const docDate = doc.data().date.toDate();
+      const docMonth = docDate.getMonth();
+      const docYear = docDate.getFullYear();
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0);
+      const currentYear = currentDate.getFullYear();
+      const prevYear = currentDate.getFullYear() - 1;
+      if (docYear === currentYear) {
+        months[docMonth] += doc.data().amount;
+      } else if (docYear === prevYear) {
+        months[docMonth + 12] += doc.data().amount;
+      }
+    });
+
+    return months;
+  } catch (error) {
+    toast.error("عطل حصل");
+    console.error("Error:", error);
+    return [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]; // Return a default value or handle the error accordingly
   }
 };

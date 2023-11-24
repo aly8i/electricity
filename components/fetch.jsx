@@ -1,12 +1,11 @@
-"use client"
-import React, { useEffect,useState,useContext } from 'react'
-import { fetchAdmin } from '../hooks/FirebaseHook';
+"use client";
+import React, { useEffect, useState, useContext } from "react";
+import { fetchAdmin, fetchLogin } from "../hooks/FirebaseHook";
 
 const Fetch = () => {
-    fetchAdmin();
-  return (
-    <></>
-  )
-}
+  fetchLogin();
+  fetchAdmin();
+  return <></>;
+};
 
-export default Fetch
+export default Fetch;

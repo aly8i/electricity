@@ -46,8 +46,7 @@ const Page = ({ params }) => {
             const x1 = user?.cur - user?.prev;
             const x2 = x1 * admin?.KWPrice;
             const x3 = x2 + user?.amps * admin?.ampsPrice;
-            setAmount(x3);
-            console.log(x2);
+            setAmount(x3.toFixed(2));
           }
         }
       } catch (error) {
@@ -129,7 +128,7 @@ const Page = ({ params }) => {
           <div className={styles.detail}>
             <p>{"دولار"}</p>
             <p>&nbsp;</p>
-            <p>{amps * admin?.ampsPrice}</p>
+            <p>{(amps * admin?.ampsPrice).toFixed(2)}</p>
             <p>&nbsp;</p>
             <p>{"ليرة لبنانية او"}</p>
             <p> &nbsp;</p>
@@ -212,7 +211,7 @@ const Page = ({ params }) => {
               month,
               year,
               number,
-              amount,
+              parseFloat(amount),
               date,
               amps
             )

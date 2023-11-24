@@ -2,6 +2,9 @@ import React, { useContext } from "react";
 import styles from "./Action.module.scss";
 import { UserContext } from "../../context/Usercontext";
 import { toast } from "react-toastify";
+import { deleteUser } from "../../functions";
+import { signOut } from "next-auth/react";
+
 const Action = () => {
   const { sUser } = useContext(UserContext);
   const edit = () => {
@@ -28,6 +31,14 @@ const Action = () => {
       window.location.href = `/view/${sUser}`;
     }
   };
+  const deleteIt = () => {
+    if (sUser == "") {
+      toast.warning("الرجاء تعين الاسم");
+      return;
+    } else {
+      deleteUser(sUser);
+    }
+  };
   return (
     <div className={styles.actionContainer}>
       <div onClick={() => invoice()} className={styles.action}>
@@ -42,8 +53,14 @@ const Action = () => {
       <div onClick={() => edit()} className={styles.action}>
         تعديل
       </div>
+      <div onClick={() => deleteIt()} className={styles.action}>
+        مسح
+      </div>
       <div onClick={() => view()} className={styles.action}>
         كشف
+      </div>
+      <div onClick={() => signOut()} className={styles.action}>
+        خروج
       </div>
       <div
         onClick={() => (window.location.href = "/admin")}

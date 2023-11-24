@@ -1,20 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import {db} from "../../../Firebase";
-import { collection,query,where,getDocs } from 'firebase/firestore';
-var username = "";
-var role = "";
-var satbox = "";
-var intbox = "";
-var satchargeday = 0;
-var intchargeday = 0;
-var intchargeamount = 0;
-var satchargeamount = 0;
-var id = "";
-var intcredit = 0;
-var satcredit = 0;
-var intweb = "";
-var service = [];
+import { getAdmin } from "../../../functions";
+// import { useSession } from "next-auth/react";
+var loggedIn = false;
+
 export default NextAuth({
   session: {
     strategy: "jwt",
@@ -22,32 +11,14 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       async authorize(credentials, req) {
-        const usersRef = collection(db, "users");
-        const { phonenumber, password } = credentials;
+        const { username, password } = credentials;
         try {
-          const usersQuery = query(usersRef, where("phonenumber", "==", phonenumber), where("password", "==", password));
-          const querySnapshot = await getDocs(usersQuery);
-          if (querySnapshot.docs.length === 0) {
-            throw new Error("Invalid Credentials!");
+          const admin = await getAdmin();
+          console.log(admin);
+          if (username === admin.username && password === admin.password) {
+            loggedIn = true;
           }
-          const userData = querySnapshot.docs[0].data();
-          const user = {
-            ...userData 
-          };
-          id = querySnapshot.docs[0].id;
-          username = user.username;
-          role = user.role;
-          service = user.service;
-          intbox = user.int;
-          satbox = user.satbox;
-          intcredit = user.intcredit;
-          satcredit = user.satcredit;
-          intchargeday = user.intchargeday;
-          intweb = user.intweb;
-          satchargeday = user.satchargeday;
-          intchargeamount = user.intchargeamount;
-          satchargeamount = user.satchargeamount;
-          return user; 
+          return loggedIn;
         } catch (error) {
           console.log("Error:", error);
           throw new Error("Something went wrong!");
@@ -59,22 +30,10 @@ export default NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    async session(session, user) {
-      session.session.user.username = username;
-      session.session.user.role = role;
-      session.session.user.satbox = satbox;
-      session.session.user.intbox = intbox;
-      session.session.user.id = id;
-      session.session.user.service = service;
-      session.session.user.satcredit = satcredit;
-      session.session.user.intcredit = intcredit;
-      session.session.user.intchargeday = intchargeday;
-      session.session.user.satchargeday = satchargeday;
-      session.session.user.intchargeamount = intchargeamount;
-      session.session.user.satchargeamount = satchargeamount;
-      session.session.user.intweb = intweb;
+    async session(session, loggedIn) {
+      session.session.loggedIn = true;
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
 });

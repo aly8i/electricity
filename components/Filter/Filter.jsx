@@ -12,7 +12,7 @@ const Filter = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [number, setNumber] = useState("");
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("كلا");
   const [date, setDate] = useState(null);
 
   useEffect(() => {
@@ -102,12 +102,30 @@ const Filter = () => {
       },
     },
     {
+      name: "لم يدفع",
+      action: async () => {
+        setFilter("لم يدفع");
+        const filtered = await data
+          .filter((user) => user?.cur - user?.prev != 0)
+          .sort((a, b) => b.cur - b.prev - (a.cur - a.prev));
+        setFData([...filtered]);
+      },
+    },
+    {
       name: "علبه ديون",
-      action: () => {
-        const filtered = data
+      action: async () => {
+        setFilter("علبه ديون");
+        const filtered = await data
           .filter((user) => user?.balance > 0)
           .sort((a, b) => b.balance - a.balance);
-        setFData(filtered);
+        setFData([...filtered]);
+      },
+    },
+    {
+      name: "كلا",
+      action: async () => {
+        setFilter("كلا");
+        setFData([...data]);
       },
     },
   ];

@@ -23,6 +23,7 @@ const Page = () => {
     "العلبة",
     "اسم المشترك",
   ];
+
   return (
     <div>
       <Filter />

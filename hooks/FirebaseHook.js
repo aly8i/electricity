@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../Firebase";
 import { UserContext } from "../context/Usercontext";
-
+import { useSession } from "next-auth/react";
 export const fetchUsers = () => {
   const { setData, setFData } = useContext(UserContext);
   const usersRef = collection(db, "users");
@@ -45,7 +45,6 @@ export const fetchUsers = () => {
             const usersData = await Promise.all(usersDataPromises);
 
             // Update the context with the fetched data
-            console.log(usersData);
             setData(usersData);
             setFData(usersData);
           }
@@ -64,7 +63,18 @@ export const fetchUsers = () => {
 
   // No return statement or value is needed
 };
+export const fetchLogin = () => {
+  const { status } = useSession();
 
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    if (status == "loading" || currentUrl == `${process.env.BASE_URL}/`) return;
+
+    if (status == "unauthenticated") {
+      window.location.href = `${process.env.BASE_URL}/`;
+    }
+  }, [status]);
+};
 export const fetchAdmin = () => {
   const { setAdmin } = useContext(UserContext);
 

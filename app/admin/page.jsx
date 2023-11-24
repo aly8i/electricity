@@ -1,17 +1,28 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import styles from "./edit.module.scss";
-import { editAdmin } from "../../functions";
+import { editAdmin, getTodayTotal, getMonthsTotal } from "../../functions";
 import { UserContext } from "../../context/Usercontext";
-
+import Chart from "../../components/Chart/chart";
+// import Chart from "../../components/Chart/chart";
 const page = () => {
   const [rate, setRate] = useState(0);
   const [KWPrice, setKWPrice] = useState(0);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [ampsPrice, setAmpsPrice] = useState(0);
+  const [today, setToday] = useState(0);
+  const [months, setMonths] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const { admin } = useContext(UserContext);
+
   useEffect(() => {
+    const fetch = async () => {
+      const y = await getTodayTotal();
+      const yy = await getMonthsTotal();
+      setMonths(yy);
+      setToday(y);
+    };
+    fetch();
     setKWPrice(admin?.KWPrice);
     setAmpsPrice(admin?.ampsPrice);
     setRate(admin?.rate);
@@ -62,6 +73,15 @@ const page = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
+        </div>
+      </div>
+      <div className={styles.middle}>
+        <div className={styles.today}>
+          <p className={styles.today1}>مجموع اليوم</p>
+          <p className={styles.today2}>{today}$</p>
+        </div>
+        <div className={styles.months}>
+          <Chart aspect={3} title={"months"} months={months} />
         </div>
       </div>
       <div className={styles.down}>
