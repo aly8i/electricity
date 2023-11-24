@@ -13,7 +13,7 @@ export default NextAuth({
         const { username, password } = credentials;
         try {
           const admin = await getAdmin();
-          if (username === admin.username && password === admin.password) {
+          if (username === admin?.username && password === admin?.password) {
             loggedIn = true;
           }
           return loggedIn;

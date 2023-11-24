@@ -16,7 +16,11 @@ const Login = () => {
       password,
     });
   };
-
+  useEffect(() => {
+    if (status == "authenticated") {
+      window.location.href = "/dashboard";
+    }
+  }, [status]);
   if (status == "loading") {
     return <></>;
   }
