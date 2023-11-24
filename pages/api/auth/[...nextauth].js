@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getAdmin } from "../../../functions";
-// import { useSession } from "next-auth/react";
 var loggedIn = false;
 
 export default NextAuth({
@@ -14,7 +13,6 @@ export default NextAuth({
         const { username, password } = credentials;
         try {
           const admin = await getAdmin();
-          console.log(admin);
           if (username === admin.username && password === admin.password) {
             loggedIn = true;
           }

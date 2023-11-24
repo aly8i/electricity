@@ -71,7 +71,7 @@ export const fetchLogin = () => {
     if (status == "loading" || currentUrl == `${process.env.BASE_URL}/`) return;
 
     if (status == "unauthenticated") {
-      window.location.href = `${process.env.BASE_URL}/`;
+      window.location.href = "/";
     }
   }, [status]);
 };
