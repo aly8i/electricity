@@ -68,7 +68,12 @@ export const fetchLogin = () => {
 
   useEffect(() => {
     const currentUrl = window.location.href;
-    if (status == "loading" || currentUrl == `${process.env.BASE_URL}/`) return;
+    if (
+      status == "loading" ||
+      currentUrl == `${process.env.BASE_URL}` ||
+      currentUrl == `${process.env.BASE_URL}/`
+    )
+      return;
 
     if (status == "unauthenticated") {
       window.location.href = "/";
