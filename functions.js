@@ -74,7 +74,7 @@ export const addUser = async (name, box, prev, month, year, number, amps) => {
         month: parseInt(month),
         year: parseInt(year),
         number,
-        amps,
+        amps: parseInt(amps),
         balance: 0,
       };
       await addDoc(usersRef, data);
@@ -124,8 +124,8 @@ export const editUser = async (
         month: parseInt(month),
         year: parseInt(year),
         number,
-        amps,
-        balance,
+        amps: parseInt(amps),
+        balance: parseFloat(balance),
       };
       await updateDoc(userDoc, data);
     }
@@ -231,7 +231,7 @@ export const saveInvoice = async (
         month: parseInt(month),
         year: parseInt(year),
         number,
-        amount,
+        amount: parseFloat(amount),
         date: nowdate,
         amps: parseInt(amps),
       };
@@ -295,8 +295,6 @@ export const getTodayTotal = async () => {
         today.toLocaleDateString()
       ) {
         total += doc.data().amount;
-        console.log(doc.data().amount);
-        console.log(doc.data());
       }
     });
     return total;

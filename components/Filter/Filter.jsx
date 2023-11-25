@@ -112,11 +112,31 @@ const Filter = () => {
       },
     },
     {
-      name: "علبه ديون",
+      name: "التامين ايجابي",
       action: async () => {
-        setFilter("علبه ديون");
+        setFilter("التامين ايجابي");
         const filtered = await data
           .filter((user) => user?.balance > 0)
+          .sort((a, b) => b.balance - a.balance);
+        setFData([...filtered]);
+      },
+    },
+    {
+      name: "التامين سلبي",
+      action: async () => {
+        setFilter("التامين سلبي");
+        const filtered = await data
+          .filter((user) => user?.balance < 0)
+          .sort((a, b) => b.balance - a.balance);
+        setFData([...filtered]);
+      },
+    },
+    {
+      name: "لم يدفع تامين",
+      action: async () => {
+        setFilter("لم يدفع تامين");
+        const filtered = await data
+          .filter((user) => user?.balance == 0)
           .sort((a, b) => b.balance - a.balance);
         setFData([...filtered]);
       },

@@ -38,7 +38,7 @@ const page = ({ params }) => {
     <div className={styles.addContainer}>
       <div className={styles.up}>
         <div className={styles.field}>
-          <p className="title">الدين</p>
+          <p className="title">التأمين</p>
           <input
             type="number"
             onChange={(e) => setBalance(e.target.value)}
