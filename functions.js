@@ -46,7 +46,16 @@ export const getAdmin = async () => {
   }
 };
 
-export const addUser = async (name, box, prev, month, year, number, amps) => {
+export const addUser = async (
+  name,
+  box,
+  prev,
+  month,
+  year,
+  number,
+  amps,
+  balance
+) => {
   if (
     name == "" ||
     box == "" ||
@@ -75,14 +84,14 @@ export const addUser = async (name, box, prev, month, year, number, amps) => {
         year: parseInt(year),
         number,
         amps: parseInt(amps),
-        balance: 0,
+        balance: parseFloat(balance),
       };
       await addDoc(usersRef, data);
       window.location.href = "/dashboard";
     }
-    toast.success("User added succefully");
+    toast.success("تمت الأضافة بنجاح");
   } catch (error) {
-    toast.error("Error adding the user");
+    toast.error("حصل عطل");
   }
 };
 

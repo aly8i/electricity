@@ -11,7 +11,7 @@ const Page = () => {
   const { fData } = useContext(UserContext);
   const headers = [
     "الدفعة الاخيرة",
-    "الدين",
+    "التأمين",
     "الفاتورة",
     "الامبيراج",
     "الاستهلاك",

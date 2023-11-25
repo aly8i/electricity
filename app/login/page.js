@@ -32,10 +32,10 @@ const Login = () => {
             className="border border-secondary rounded p-4"
             onSubmit={submitHandler}
           >
-            <h1 className="mb-4">Login</h1>
+            <h1 className="mb-4">تسجيل الدخول</h1>
             <div className="form-outline mb-4">
               <label className="form-label" htmlFor="email_field">
-                Username
+                الاسم
               </label>
               <input
                 type="username"
@@ -48,7 +48,7 @@ const Login = () => {
 
             <div className="form-outline mb-4">
               <label className="form-label" htmlFor="password_field">
-                Password
+                كلمة المرور
               </label>
               <input
                 type="password"
@@ -63,7 +63,7 @@ const Login = () => {
               type="submit"
               className="btn btn-block w-100 btn-primary btn-block mb-4"
             >
-              Sign in
+              ادخل
             </button>
           </form>
         </div>

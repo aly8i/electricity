@@ -41,8 +41,8 @@ const Action = () => {
   };
   return (
     <div className={styles.actionContainer}>
-      <div onClick={() => invoice()} className={styles.action}>
-        انشاء فاتورة
+      <div onClick={() => deleteIt()} className={styles.action}>
+        مسح
       </div>
       <div
         onClick={() => (window.location.href = "/add")}
@@ -53,20 +53,21 @@ const Action = () => {
       <div onClick={() => edit()} className={styles.action}>
         تعديل
       </div>
-      <div onClick={() => deleteIt()} className={styles.action}>
-        مسح
+
+      <div onClick={() => invoice()} className={styles.action}>
+        انشاء فاتورة
       </div>
       <div onClick={() => view()} className={styles.action}>
         كشف
-      </div>
-      <div onClick={() => signOut()} className={styles.action}>
-        خروج
       </div>
       <div
         onClick={() => (window.location.href = "/admin")}
         className={styles.action}
       >
         ادارة
+      </div>
+      <div onClick={() => signOut()} className={styles.action}>
+        خروج
       </div>
     </div>
   );

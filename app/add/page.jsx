@@ -13,10 +13,26 @@ const add = () => {
   const [prev, setPrev] = useState("");
   const printRef = useRef();
   const [amps, setAmps] = useState("");
+  const [balance, setBalance] = useState(0);
 
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+    setYear(currentYear);
+    setMonth(currentMonth);
+  }, []);
   return (
     <div className={styles.addContainer} ref={printRef}>
       <div className={styles.up}>
+        <div className={styles.field}>
+          <p className="title">التأمين</p>
+          <input
+            type="number"
+            onChange={(e) => setBalance(e.target.value)}
+            value={balance}
+          />
+        </div>
         <div className={styles.field}>
           <p className="title">السنة</p>
           <input
@@ -78,7 +94,7 @@ const add = () => {
         <div
           className={styles.btn}
           onClick={async () =>
-            await addUser(name, box, prev, month, year, number, amps)
+            await addUser(name, box, prev, month, year, number, amps, balance)
           }
         >
           انشاء
