@@ -202,6 +202,12 @@ const Page = ({ params }) => {
         <ReactToPrint
           trigger={() => <button className={styles.btn}>طبع</button>}
           content={() => printRef.current}
+          pageStyle={`@media print {
+            .${styles.mtitle} {
+              position: relative;
+              right: -60px;
+            }
+          }`}
         />
         <button
           onClick={() =>
