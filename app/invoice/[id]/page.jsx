@@ -205,7 +205,7 @@ const Page = ({ params }) => {
           pageStyle={`@media print {
             .${styles.mtitle} {
               position: relative;
-              right: -60px;
+              right: -100px;
             }
           }`}
         />
