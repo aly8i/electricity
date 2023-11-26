@@ -169,19 +169,22 @@ const Page = ({ params }) => {
             <p>{": مجموع الفاتورة"}</p>
           </div>
           <div className={styles.detailx}>
-            <p>{admin?.rate?.toLocaleString()}</p>
-            <p>&nbsp;</p>
-            <p>{"دولار على سعر الصيرفة"}</p>
-            <p>&nbsp;</p>
-            <p>{admin?.KWPrice}</p>
-            <p>&nbsp;</p>
-            <p>{"او"}</p>
-            <p>&nbsp;</p>
-            <p>{"ليرة لبنانية"}</p>
-            <p>&nbsp;</p>
-            <p>{(admin?.KWPrice * admin?.rate)?.toLocaleString()}</p>
-            <p>&nbsp;</p>
-            <p>{"سعر الكيلو واط الصادر عن وزارة الطاقة"}</p>
+            <div className={styles.detail1}>
+              <p>{"ليرة لبنانية"}</p>
+              <p>&nbsp;</p>
+              <p>{(admin?.KWPrice * admin?.rate)?.toLocaleString()}</p>
+              <p>&nbsp;</p>
+              <p>{"سعر الكيلو واط الصادر عن وزارة الطاقة"}</p>
+            </div>
+            <div className={styles.detail2}>
+              <p>{admin?.rate?.toLocaleString()}</p>
+              <p>&nbsp;</p>
+              <p>{"دولار على سعر الصيرفة"}</p>
+              <p>&nbsp;</p>
+              <p>{admin?.KWPrice}</p>
+              <p>&nbsp;</p>
+              <p>{"او"}</p>
+            </div>
           </div>
         </div>
       </div>
