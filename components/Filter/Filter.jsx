@@ -105,32 +105,57 @@ const Filter = () => {
       name: "لم يدفع",
       action: async () => {
         setFilter("لم يدفع");
-        const filtered = await data
-          .filter((user) => user?.cur - user?.prev != 0)
-          .sort((a, b) => b.cur - b.prev - (a.cur - a.prev));
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear();
+
+        const filtered = await data.filter(
+          (user) =>
+            !user?.latestInvoice instanceof Date ||
+            user?.latestInvoice?.toDate().getMonth() + 1 != currentMonth ||
+            user?.latestInvoice?.toDate().getFullYear() != currentYear
+        );
+        // .sort((a, b) => b.cur - b.prev - (a.cur - a.prev));
         setFData([...filtered]);
       },
     },
     {
-      name: "التامين ايجابي",
+      name: "تم الدفع",
       action: async () => {
-        setFilter("التامين ايجابي");
+        setFilter("تم الدفع");
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear();
+
+        const filtered = await data.filter(
+          (user) =>
+            user?.latestInvoice?.toDate().getMonth() + 1 == currentMonth &&
+            user?.latestInvoice?.toDate().getFullYear() == currentYear
+        );
+        // .sort((a, b) => b.cur - b.prev - (a.cur - a.prev));
+        setFData([...filtered]);
+      },
+    },
+    {
+      name: "دفع التأمين",
+      action: async () => {
+        setFilter("دفع التأمين");
         const filtered = await data
           .filter((user) => user?.balance > 0)
           .sort((a, b) => b.balance - a.balance);
         setFData([...filtered]);
       },
     },
-    {
-      name: "التامين سلبي",
-      action: async () => {
-        setFilter("التامين سلبي");
-        const filtered = await data
-          .filter((user) => user?.balance < 0)
-          .sort((a, b) => b.balance - a.balance);
-        setFData([...filtered]);
-      },
-    },
+    // {
+    //   name: "التامين سلبي",
+    //   action: async () => {
+    //     setFilter("التامين سلبي");
+    //     const filtered = await data
+    //       .filter((user) => user?.balance < 0)
+    //       .sort((a, b) => b.balance - a.balance);
+    //     setFData([...filtered]);
+    //   },
+    // },
     {
       name: "لم يدفع تامين",
       action: async () => {

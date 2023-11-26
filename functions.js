@@ -8,6 +8,7 @@ import {
   getDoc,
   query,
   where,
+  setDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { deleteDoc } from "firebase/firestore";
@@ -198,6 +199,7 @@ export const deleteUser = async (id) => {
   }
 };
 export const saveInvoice = async (
+  invID,
   id,
   name,
   box,
@@ -213,6 +215,7 @@ export const saveInvoice = async (
   try {
     const nowdate = new Date();
     if (
+      invID == "" ||
       !id ||
       name === "" ||
       box === "" ||
@@ -230,6 +233,7 @@ export const saveInvoice = async (
 
     const invoicessRef = collection(db, "invoices");
     const usersRef = collection(db, "users");
+    const docRef = doc(invoicessRef, invID);
     if (id) {
       const data = {
         user: id,
@@ -244,9 +248,74 @@ export const saveInvoice = async (
         date: nowdate,
         amps: parseInt(amps),
       };
-      await addDoc(invoicessRef, data);
+      await setDoc(docRef, data);
 
       const data2 = { prev: cur };
+      if (id) {
+        const userDoc = doc(usersRef, id);
+        await updateDoc(userDoc, data2);
+      }
+    }
+    toast.success("الفاتورة حفظة");
+  } catch (error) {
+    toast.error("عطل حصل");
+    console.error("Error:", error);
+  }
+};
+
+export const saveInvoice2 = async (
+  invID,
+  id,
+  name,
+  box,
+  prev,
+  cur,
+  month,
+  year,
+  number,
+  amount,
+  date,
+  amps
+) => {
+  try {
+    const nowdate = new Date();
+    if (
+      invID == "" ||
+      !id ||
+      name === "" ||
+      box === "" ||
+      prev === "" ||
+      cur === "" ||
+      month === "" ||
+      year === "" ||
+      number === "" ||
+      date === null ||
+      amps === ""
+    ) {
+      toast.warning("المعلومات غير مكتملة");
+      return;
+    }
+
+    const invoicessRef = collection(db, "invoices");
+    const usersRef = collection(db, "users");
+    const docRef = doc(invoicessRef, invID);
+    if (id) {
+      const data = {
+        user: id,
+        name,
+        box,
+        cur: parseFloat(cur),
+        prev: parseFloat(prev),
+        month: parseInt(month),
+        year: parseInt(year),
+        number,
+        amount: parseFloat(amount),
+        date: nowdate,
+        amps: parseInt(amps),
+      };
+      await setDoc(docRef, data);
+
+      const data2 = { balance: parseFloat(amount) };
       if (id) {
         const userDoc = doc(usersRef, id);
         await updateDoc(userDoc, data2);

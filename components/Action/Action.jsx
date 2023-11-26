@@ -23,6 +23,14 @@ const Action = () => {
       window.location.href = `/invoice/${sUser}`;
     }
   };
+  const invoice2 = () => {
+    if (sUser == "") {
+      toast.warning("الرجاء تعين الاسم");
+      return;
+    } else {
+      window.location.href = `/invoice2/${sUser}`;
+    }
+  };
   const view = () => {
     if (sUser == "") {
       toast.warning("الرجاء تعين الاسم");
@@ -57,6 +65,11 @@ const Action = () => {
       <div onClick={() => invoice()} className={styles.action}>
         انشاء فاتورة
       </div>
+
+      <div onClick={() => invoice2()} className={styles.action}>
+        انشاء تامين
+      </div>
+
       <div onClick={() => view()} className={styles.action}>
         كشف
       </div>

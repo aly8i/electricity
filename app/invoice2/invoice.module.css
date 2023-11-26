@@ -102,7 +102,7 @@
   display: flex;
   justify-content: flex-end;
   width: 500px;
-  border-top: 1px solid black;
+  border-top: 1px solid transparent;
   padding: 10px;
 }
 

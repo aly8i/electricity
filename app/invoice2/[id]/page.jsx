@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import styles from "../invoice.module.css";
-import { getUser, saveInvoice } from "../../../functions";
+import { getUser, saveInvoice2 } from "../../../functions";
 import ReactToPrint from "react-to-print";
 import { UserContext } from "../../../context/Usercontext";
 import { v4 as uuidv4 } from "uuid";
@@ -14,8 +14,10 @@ const Page = ({ params }) => {
   const [year, setYear] = useState("");
   const [number, setNumber] = useState("");
   const [prev, setPrev] = useState("");
-  const [cur, setCur] = useState("");
   const [id, setID] = useState("");
+  const [cur, setCur] = useState("");
+  const [balance, setBalance] = useState("");
+
   const [date, setDate] = useState("");
   const { admin } = useContext(UserContext);
   const [amount, setAmount] = useState(0);
@@ -38,6 +40,8 @@ const Page = ({ params }) => {
           setPrev(user.prev);
           setCur(user.cur);
           setAmps(user.amps);
+          setBalance(user.balance);
+          console.log(user.balance);
           const yourDate = new Date();
           const day = String(yourDate.getDate()).padStart(2, "0");
           const month = String(yourDate.getMonth() + 1).padStart(2, "0");
@@ -63,22 +67,26 @@ const Page = ({ params }) => {
   return (
     <div className={styles.addContainer}>
       <div className={styles.up} ref={printRef}>
-        <div className={styles.mtitle}>ايصال اشتراك كهرباء</div>
+        <div className={styles.mtitle}>ايصال تأمين كهرباء</div>
         <div className={styles.left}>
           <div className={styles.info}>
             <div className={styles.detail}>
-              <p>{box}</p>
+              {/* <p>{box}</p> */}
               <p>&nbsp;</p>
-              <p>: العلبة</p>
+              {/* <p>: العلبة</p> */}
             </div>
           </div>
-          <div className={styles.info}>{amps}A : الامبيراج</div>
           <div className={styles.info}>{id} : الرمز</div>
+
+          <div className={styles.info}>
+            {/* {amps}A : الامبيراج */}
+            <p>&nbsp;</p>
+          </div>
         </div>
         <div className={styles.line} />
         <div className={styles.body}>
           <table className={styles.table}>
-            <thead>
+            {/* <thead>
               <tr className={styles.tr}>
                 <th className={styles.th}>الاستهلاك</th>
                 <th className={styles.th}>العداد السابق</th>
@@ -91,7 +99,7 @@ const Page = ({ params }) => {
                 <td className={styles.td}>{prev}</td>
                 <td className={styles.td}>{cur}</td>
               </tr>
-            </tbody>
+            </tbody> */}
           </table>
           <div className={styles.from}>
             <div className={styles.detail}>
@@ -103,7 +111,7 @@ const Page = ({ params }) => {
         </div>
         <div className={styles.details}>
           <div className={styles.detail}>
-            <p>{`دولار`}</p>
+            {/* <p>{`دولار`}</p>
             <p>&nbsp;</p>
             <p>{((cur - prev) * admin?.KWPrice).toFixed(2)}</p>
             <p>&nbsp;</p>
@@ -113,7 +121,7 @@ const Page = ({ params }) => {
               {((cur - prev) * admin?.KWPrice * admin?.rate).toLocaleString()}
             </p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-            <p>{": مجموع الاستهلاك"} </p>
+            <p>{": مجموع الاستهلاك"} </p> */}
           </div>
           <div className={styles.detail}>
             <p>{"دولار"}</p>
@@ -129,7 +137,7 @@ const Page = ({ params }) => {
         </div>
         <div className={styles.details}>
           <div className={styles.detail}>
-            <p>{"دولار"}</p>
+            {/* <p>{"دولار"}</p>
             <p>&nbsp;</p>
             <p>{(amps * admin?.ampsPrice).toFixed(2)}</p>
             <p>&nbsp;</p>
@@ -137,7 +145,7 @@ const Page = ({ params }) => {
             <p> &nbsp;</p>
             <p>{(amps * admin?.ampsPrice * admin?.rate).toLocaleString()}</p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-            <p>{": الاشتراك الثابت"}</p>
+            <p>{": الاشتراك الثابت"}</p> */}
           </div>
           <div className={styles.detail}>
             <p>{year}</p>
@@ -146,12 +154,35 @@ const Page = ({ params }) => {
             <p>&nbsp;</p>
             <p>{month}</p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-            <p>{": وذالك عن شهر"}</p>
+            <p>{": وذالك خلال شهر"}</p>
           </div>
         </div>
         <div className={styles.details}>
           <div className={styles.detailxx}>
-            <p>{"دولار"}</p>
+            <div className={styles.detailx}>
+              <div className={styles.detail1}>
+                {/* <p>{"ليرة لبنانية"}</p>
+                <p>&nbsp;</p>
+                <p>{(admin?.KWPrice * admin?.rate)?.toLocaleString()}</p>
+                */}
+                <p>{"الى المنازل"}</p>
+                <p>&nbsp;</p>
+                <p>{"الكهرباء"}</p>
+                <p>&nbsp;</p>
+                <p> {"هذه الدفعة هي مبلغ تأمين تمديد"}</p>
+              </div>
+              <div className={styles.detail2}>
+                {/* <p>{admin?.rate?.toLocaleString()}</p>
+                <p>&nbsp;</p>
+                <p>{}</p>
+                <p>&nbsp;</p> */}
+                <p>{"لخدمتكم بشكل افضل"}</p>
+                <p>&nbsp;</p>
+                <p>{"و المحلات التجارية"}</p>
+                <p>&nbsp;</p>
+              </div>
+            </div>
+            {/* <p>{"دولار"}</p>
             <p>&nbsp;</p>
             <p>
               {(
@@ -169,7 +200,7 @@ const Page = ({ params }) => {
               ).toLocaleString()}
             </p>
             <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-            <p>{": مجموع الفاتورة"}</p>
+            <p>{": مجموع الفاتورة"}</p> */}
           </div>
           <div className={styles.detailx}>
             <div className={styles.detail1}>
@@ -214,7 +245,7 @@ const Page = ({ params }) => {
         />
         <button
           onClick={() =>
-            saveInvoice(
+            saveInvoice2(
               id,
               params.id,
               name,
