@@ -19,6 +19,8 @@ const Page = ({ params }) => {
   const [date, setDate] = useState("");
   const { admin } = useContext(UserContext);
   const [amount, setAmount] = useState(0);
+  const [amountLira, setAmountLira] = useState(0);
+  const [amountDollar, setAmountDollar] = useState(0);
   const printRef = useRef();
 
   useEffect(() => {
@@ -49,7 +51,9 @@ const Page = ({ params }) => {
             const x1 = user?.cur - user?.prev;
             const x2 = x1 * admin?.KWPrice;
             const x3 = x2 + user?.amps * admin?.ampsPrice;
+            setAmountDollar(x3.toFixed(2));
             setAmount(x3.toFixed(2));
+            // setAmountLira(x3.toFixed(2) * admin?.rate);
           }
         }
       } catch (error) {
@@ -59,6 +63,13 @@ const Page = ({ params }) => {
 
     fetchData();
   }, [params.id, admin]);
+
+  useEffect(() => {
+    const x =
+      parseFloat(amountDollar || 0) +
+      parseFloat(amountLira || 0) / parseFloat(admin?.rate);
+    setAmount(x.toFixed(2));
+  }, [amountDollar, amountLira]);
 
   return (
     <div className={styles.addContainer}>
@@ -192,13 +203,29 @@ const Page = ({ params }) => {
         </div>
       </div>
       <div className={styles.middle}>
-        <div className={styles.field}>
-          <p className="title">قيمة الدفع</p>
-          <input
-            type="number"
-            onChange={(e) => setAmount(e.target.value)}
-            value={amount}
-          />
+        <p className={styles.paymentTitle}>قيمة الدفع</p>
+        <div className={styles.paymentWrapper}>
+          <div className={styles.field}>
+            <p className="title">ليرة</p>
+            <input
+              type="number"
+              onChange={(e) => {
+                setAmountLira(parseFloat(e.target.value));
+              }}
+              value={amountLira}
+            />
+          </div>
+          <div className={styles.field}>
+            <p className="title">$</p>
+            <input
+              min="0"
+              type="number"
+              onChange={(e) => {
+                setAmountDollar(parseFloat(e.target.value));
+              }}
+              value={amountDollar}
+            />
+          </div>
         </div>
       </div>
       <div className={styles.down}>

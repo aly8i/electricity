@@ -5,6 +5,7 @@ import { fetchUsers, fetchAdmin } from "../../hooks/FirebaseHook";
 import Table from "../../components/Table/Table";
 import Filter from "../../components/Filter/Filter";
 import Action from "../../components/Action/Action";
+import styles from "./dashboard.module.scss";
 const Page = () => {
   fetchUsers();
   fetchAdmin();
@@ -25,7 +26,7 @@ const Page = () => {
   ];
 
   return (
-    <div>
+    <div className={styles.con}>
       <Filter />
       <Table headers={headers} data={fData} />
       <Action />
